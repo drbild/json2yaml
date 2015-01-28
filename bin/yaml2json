@@ -27,19 +27,29 @@ Arguments:
 """
 
 import sys, os
-import collections
 import json, yaml
 import docopt
+
+from collections import OrderedDict as odict
+from yaml import MappingNode
 
 __version__ = "1.0.0"
 
 # Configure PyYaml to create ordered dicts
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
 
-def ordered_dict_constructor(loader, node):
-    return collections.OrderedDict(loader.construct_pairs(node))
+def construct_ordered_mapping(loader, node, deep=False):
+    if isinstance(node, MappingNode):
+        loader.flatten_mapping(node)
+    return odict(loader.construct_pairs(node, deep))
 
-yaml.add_constructor(_mapping_tag, ordered_dict_constructor)
+def construct_yaml_ordered_map(loader, node, deep=False):
+    data = odict()
+    yield data
+    value = construct_ordered_mapping(loader, node, deep)
+    data.update(value)
+
+yaml.add_constructor(_mapping_tag, construct_yaml_ordered_map)
 
 # Convert from YAML to JSON
 def convert(yaml_file, json_file):
