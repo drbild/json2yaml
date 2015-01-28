@@ -1,19 +1,51 @@
-# yaml2json
+# json2yaml
 
+Command line utilities to convert between JSON and YAML while
+preserving the order of associative arrays.  
+
+Preserving the mapping order is helpful to humans reading the
+documents, despite not affecting their meaning.
 
 ## Install
     
-pip
+```pip install json2yaml```
 
 ## Usage
+```json2yaml input.json output.yaml```
 
-yaml2json
+```yaml2json input.yaml output.json```
+
+```
+$ json2yaml --help
+Usage:
+    json2yaml (--version|--help)
+    json2yaml [<json_file>] [<yaml_file>]
+
+Arguments:
+    <json_file>    The input file containing the JSON to convert. If not
+                   specified, reads from stdin.
+    <yaml_file>    The output file to which to write the converted YAML. If 
+                   not specified, writes to stdout.
+```
+
+```
+$ yaml2json --help
+Usage:
+    yaml2json (--version|--help)
+    yaml2json [<yaml_file>] [<json_file>]
+
+Arguments:
+    <yaml_file>    The input file containing the YAML to convert. If not
+                   specified, reads from stdin.
+    <json_file>    The output file to which to write the converted JSON. If 
+                   not specified, writes to stdout.
+```
 
 ## Authors
 **David Bild**
 
-+ [http://www.davidbild.org](http://www.davidbild.org)
-+ [http://github.com/drbild](http://github.com/drbild)
++ [https://www.davidbild.org](https://www.davidbild.org)
++ [https://github.com/drbild](https://github.com/drbild)
 
 ## License
 Copyright 2015 David R. Bild
