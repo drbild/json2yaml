@@ -8,7 +8,7 @@ from os.path import join as pjoin
 
 setup(
     name = 'json2yaml',
-    version = '1.0.1',
+    version = '1.0.2-SNAPSHOT',
     author = 'David R. Bild',
     author_email = 'david@davidbild.org',
     keywords = 'yaml json converter ordered order preserving',
