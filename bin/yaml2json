@@ -33,7 +33,7 @@ import docopt
 from collections import OrderedDict as odict
 from yaml import MappingNode
 
-__version__ = "1.0.2-SNAPSHOT"
+from json2yaml import __version__
 
 # Configure PyYaml to create ordered dicts
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
