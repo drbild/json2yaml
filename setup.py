@@ -3,12 +3,8 @@
 import os, sys, subprocess, re
 from os.path import join as pjoin
 
-try:
-    from setuptools import setup, Command
-    from setuptools.command.sdist import sdist as _sdist
-except ImportError:
-    from distutils.core import setup, Command
-    from distutils.command.sdist import sdist as _sdist
+from setuptools import setup, Command
+from setuptools.command.sdist import sdist as _sdist
 
 VERSION_PY = """
 # This file is originally generated from Git information by running 'setup.py
