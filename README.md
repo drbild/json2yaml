@@ -32,13 +32,14 @@ Arguments:
 $ yaml2json --help
 Usage:
     yaml2json (--version|--help)
-    yaml2json [<yaml_file>] [<json_file>]
+    yaml2json [-i <indent>] [<yaml_file>] [<json_file>]
 
 Arguments:
-    <yaml_file>    The input file containing the YAML to convert. If not
-                   specified, reads from stdin.
-    <json_file>    The output file to which to write the converted JSON. If 
-                   not specified, writes to stdout.
+    -i, --indent=INDENT  Number of spaces to indent [default: 4]
+    <yaml_file>          The input file containing the YAML to convert. If not
+                         specified, reads from stdin.
+    <json_file>          The output file to which to write the converted JSON.
+                         If not specified, writes to stdout.
 ```
 
 ## Changelog
