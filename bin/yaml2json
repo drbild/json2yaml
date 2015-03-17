@@ -56,6 +56,7 @@ yaml.add_constructor(_mapping_tag, construct_yaml_ordered_map)
 def convert(yaml_file, json_file, indent):
     loaded_yaml = yaml.load(yaml_file)
     json.dump(loaded_yaml, json_file, separators=(',',': '), indent=indent)
+    json_file.write('\n')
 
 if __name__ == '__main__':
     args = docopt.docopt(
