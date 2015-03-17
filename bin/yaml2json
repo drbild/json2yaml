@@ -17,13 +17,14 @@
 """
 Usage:
     yaml2json (--version|--help)
-    yaml2json [<yaml_file>] [<json_file>]
+    yaml2json [-i <indent>] [<yaml_file>] [<json_file>]
 
 Arguments:
-    <yaml_file>    The input file containing the YAML to convert. If not
-                   specified, reads from stdin.
-    <json_file>    The output file to which to write the converted JSON. If 
-                   not specified, writes to stdout.
+    -i, --indent=INDENT  Number of spaces to indent [default: 4]
+    <yaml_file>          The input file containing the YAML to convert. If not
+                         specified, reads from stdin.
+    <json_file>          The output file to which to write the converted JSON. If
+                         not specified, writes to stdout.
 """
 
 import sys, os
@@ -52,9 +53,9 @@ def construct_yaml_ordered_map(loader, node, deep=False):
 yaml.add_constructor(_mapping_tag, construct_yaml_ordered_map)
 
 # Convert from YAML to JSON
-def convert(yaml_file, json_file):
+def convert(yaml_file, json_file, indent):
     loaded_yaml = yaml.load(yaml_file)
-    json.dump(loaded_yaml, json_file, separators=(',',': '), indent=4)
+    json.dump(loaded_yaml, json_file, separators=(',',': '), indent=indent)
 
 if __name__ == '__main__':
     args = docopt.docopt(
@@ -70,4 +71,6 @@ if __name__ == '__main__':
         if args.get('<json_file>'):
             json_file = open(args.get('<json_file>'), 'w')
         with json_file:
-            convert(yaml_file, json_file)
+            convert(yaml_file, json_file,
+                    indent=int(args.get('--indent'))
+            )
