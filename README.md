@@ -41,6 +41,14 @@ Arguments:
                    not specified, writes to stdout.
 ```
 
+## Changelog
+
++  1.1.1 (March 16, 2015)
+   +  terminate json output with newline
++  1.1.0 (March 16, 2015)
+   +  take indent as command line argument (-i | --indent)
+   +  prevent trailing spaces in json output
+
 ## Authors
 **David Bild**
 
