@@ -31,7 +31,7 @@ import collections
 import json, pyaml
 import docopt
 
-__version__ = "1.1.1-SNAPSHOT"
+__version__ = "1.1.1"
 
 def convert(json_file, yaml_file):
     loaded_json = json.load(json_file, object_pairs_hook=collections.OrderedDict)
