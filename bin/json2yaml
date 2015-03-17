@@ -33,6 +33,14 @@ import docopt
 
 __version__ = "1.1.2-SNAPSHOT"
 
+def safeopen(name, mode='r', buffering=1):
+    if isinstance(name, file):
+        return name
+    elif name == '-':
+        return sys.stdin
+    else:
+        return open(name, mode, buffering)
+
 def convert(json_file, yaml_file):
     loaded_json = json.load(json_file, object_pairs_hook=collections.OrderedDict)
     pyaml.dump(loaded_json, yaml_file, safe=True)
@@ -43,13 +51,9 @@ if __name__ == '__main__':
         version="version "+__version__
     )
 
-    json_file = sys.stdin
-    if args.get('<json_file>'):
-        json_file = open(args.get('<json_file>'), 'r')
+    json_arg = args.get('<json_file>') or sys.stdin
+    yaml_arg = args.get('<yaml_file>') or sys.stdout
 
-    with json_file:
-        yaml_file = sys.stdout
-        if args.get('<yaml_file>'):
-            yaml_file = open(args.get('<yaml_file>'), 'w')
-        with yaml_file:
+    with safeopen(json_arg, 'r') as json_file:
+        with safeopen(yaml_arg, 'w') as yaml_file:
             convert(json_file, yaml_file)

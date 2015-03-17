@@ -52,6 +52,14 @@ def construct_yaml_ordered_map(loader, node, deep=False):
 
 yaml.add_constructor(_mapping_tag, construct_yaml_ordered_map)
 
+def safeopen(name, mode='r', buffering=1):
+    if isinstance(name, file):
+        return name
+    elif name == '-':
+        return sys.stdin
+    else:
+        return open(name, mode, buffering)
+
 # Convert from YAML to JSON
 def convert(yaml_file, json_file, indent):
     loaded_yaml = yaml.load(yaml_file)
@@ -64,14 +72,10 @@ if __name__ == '__main__':
         version="version "+__version__
     )
 
-    yaml_file = sys.stdin
-    if args.get('<yaml_file>'):
-        yaml_file = open(args.get('<yaml_file>'), 'r')
-    with yaml_file:
-        json_file = sys.stdout
-        if args.get('<json_file>'):
-            json_file = open(args.get('<json_file>'), 'w')
-        with json_file:
-            convert(yaml_file, json_file,
-                    indent=int(args.get('--indent'))
-            )
+    yaml_arg   = args.get('<yaml_file>') or sys.stdin
+    json_arg   = args.get('<json_file>') or sys.stdout
+    indent_arg = int(args.get('--indent'))
+
+    with safeopen(yaml_arg, 'r') as yaml_file:
+        with safeopen(json_arg, 'w') as json_file:
+            convert(yaml_file, json_file, indent=indent_arg)
