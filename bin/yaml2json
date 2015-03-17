@@ -54,7 +54,7 @@ yaml.add_constructor(_mapping_tag, construct_yaml_ordered_map)
 # Convert from YAML to JSON
 def convert(yaml_file, json_file):
     loaded_yaml = yaml.load(yaml_file)
-    json.dump(loaded_yaml, json_file, indent=4)
+    json.dump(loaded_yaml, json_file, separators=(',',': '), indent=4)
 
 if __name__ == '__main__':
     args = docopt.docopt(
