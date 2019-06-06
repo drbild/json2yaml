@@ -67,7 +67,7 @@ def convert(yaml_file, json_file, indent, array):
         json.dump(doc, json_file, separators=(',',': '), indent=indent)
         json_file.write('\n')
 
-    loaded_yaml = list(yaml.load_all(yaml_file))
+    loaded_yaml = list(yaml.safe_load_all(yaml_file))
     if array:
         dump(list(loaded_yaml))
     else:
