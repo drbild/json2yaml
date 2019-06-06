@@ -62,7 +62,7 @@ def safeopen(name, mode='r', buffering=1):
 
 # Convert from YAML to JSON
 def convert(yaml_file, json_file, indent):
-    loaded_yaml = list(yaml.load_all(yaml_file))
+    loaded_yaml = list(yaml.safe_load_all(yaml_file))
     for document in loaded_yaml:
       json.dump(document, json_file, separators=(',',': '), indent=indent)
       json_file.write('\n')
