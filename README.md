@@ -1,13 +1,13 @@
 # json2yaml
 
 Command line utilities to convert between JSON and YAML while
-preserving the order of associative arrays.  
+preserving the order of associative arrays.
 
 Preserving the mapping order is helpful to humans reading the
 documents, despite not affecting their meaning.
 
 ## Install
-    
+
 ```pip install json2yaml```
 
 ## Usage
@@ -24,7 +24,7 @@ Usage:
 Arguments:
     <json_file>    The input file containing the JSON to convert. If not
                    specified, reads from stdin.
-    <yaml_file>    The output file to which to write the converted YAML. If 
+    <yaml_file>    The output file to which to write the converted YAML. If
                    not specified, writes to stdout.
 ```
 
@@ -44,6 +44,10 @@ Arguments:
 
 ## Changelog
 
++  1.2.0 (October 19, 2021)
+   +  support multiple yaml documents in one file
+   +  learn to wrap multiple yaml documents in a JSON array (-a | --array)
+   +  use yaml safe_load to prevent loading of arbitrary Python objects
 +  1.1.1 (March 16, 2015)
    +  terminate json output with newline
 +  1.1.0 (March 16, 2015)
