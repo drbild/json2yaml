@@ -45,6 +45,7 @@ Arguments:
 ## Changelog
 
 +  1.2.0 (October 19, 2021)
+   +  support Python 3
    +  support multiple yaml documents in one file
    +  learn to wrap multiple yaml documents in a JSON array (-a | --array)
    +  use yaml safe_load to prevent loading of arbitrary Python objects
