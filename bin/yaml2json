@@ -17,10 +17,11 @@
 """
 Usage:
     yaml2json (--version|--help)
-    yaml2json [-i <indent>] [<yaml_file>] [<json_file>]
+    yaml2json [-i <indent>] [-a] [<yaml_file>] [<json_file>]
 
 Arguments:
     -i, --indent=INDENT  Number of spaces to indent [default: 4]
+    -a, --array          Wrap the yaml documents in a JSON array
     <yaml_file>          The input file containing the YAML to convert. If not
                          specified, reads from stdin.
     <json_file>          The output file to which to write the converted JSON. If
@@ -61,12 +62,17 @@ def safeopen(name, mode='r', buffering=1):
         return open(name, mode, buffering)
 
 # Convert from YAML to JSON
-def convert(yaml_file, json_file, indent):
+def convert(yaml_file, json_file, indent, array):
+    def dump(doc):
+        json.dump(doc, json_file, separators=(',',': '), indent=indent)
+        json_file.write('\n')
+
     loaded_yaml = list(yaml.load_all(yaml_file))
-    for document in loaded_yaml:
-      json.dump(document, json_file, separators=(',',': '), indent=indent)
-      json_file.write('\n')
-    json_file.write('\n')
+    if array:
+        dump(list(loaded_yaml))
+    else:
+        for doc in loaded_yaml:
+            dump(doc)
 
 if __name__ == '__main__':
     args = docopt.docopt(
@@ -77,7 +83,8 @@ if __name__ == '__main__':
     yaml_arg   = args.get('<yaml_file>') or sys.stdin
     json_arg   = args.get('<json_file>') or sys.stdout
     indent_arg = int(args.get('--indent'))
+    array_arg  = bool(args.get('--array'))
 
     with safeopen(yaml_arg, 'r') as yaml_file:
         with safeopen(json_arg, 'w') as json_file:
-            convert(yaml_file, json_file, indent=indent_arg)
+            convert(yaml_file, json_file, indent=indent_arg, array=array_arg)
