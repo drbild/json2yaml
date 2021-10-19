@@ -26,12 +26,15 @@ Arguments:
                    not specified, writes to stdout.
 """
 
-import sys, os
+import sys, os, io
 import collections
 import json, pyaml
 import docopt
 
 __version__ = "1.1.2-SNAPSHOT"
+
+if sys.version_info >= (3, 0):
+    file = io.TextIOWrapper
 
 def safeopen(name, mode='r', buffering=1):
     if isinstance(name, file):
