@@ -19,9 +19,10 @@ documents, despite not affecting their meaning.
 $ json2yaml --help
 Usage:
     json2yaml (--version|--help)
-    json2yaml [<json_file>] [<yaml_file>]
+    json2yaml [-f] [<json_file>] [<yaml_file>]
 
 Arguments:
+    -f, --force          Overwrite target file if exists
     <json_file>    The input file containing the JSON to convert. If not
                    specified, reads from stdin.
     <yaml_file>    The output file to which to write the converted YAML. If
@@ -32,10 +33,12 @@ Arguments:
 $ yaml2json --help
 Usage:
     yaml2json (--version|--help)
-    yaml2json [-i <indent>] [<yaml_file>] [<json_file>]
+    yaml2json [-i <indent>] [-a] [-f] [<yaml_file>] [<json_file>]
 
 Arguments:
     -i, --indent=INDENT  Number of spaces to indent [default: 4]
+    -a, --array          Wrap the yaml documents in a JSON array
+    -f, --force          Overwrite target file if exists
     <yaml_file>          The input file containing the YAML to convert. If not
                          specified, reads from stdin.
     <json_file>          The output file to which to write the converted JSON.
@@ -44,6 +47,8 @@ Arguments:
 
 ## Changelog
 
++  1.2.1-SNAPSHOT
+   +  do not implicitly overwrite target files, enable with (-f | --force) flag
 +  1.2.0 (October 19, 2021)
    +  support Python 3
    +  support multiple yaml documents in one file
