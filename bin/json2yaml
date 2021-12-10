@@ -17,9 +17,10 @@
 """
 Usage:
     json2yaml (--version|--help)
-    json2yaml [<json_file>] [<yaml_file>]
+    json2yaml [-f] [<json_file>] [<yaml_file>]
 
 Arguments:
+    -f, --force          Overwrite target file if exists
     <json_file>    The input file containing the JSON to convert. If not
                    specified, reads from stdin.
     <yaml_file>    The output file to which to write the converted YAML. If
@@ -42,7 +43,11 @@ def safeopen(name, mode='r', buffering=1):
     elif name == '-':
         return sys.stdin
     else:
-        return open(name, mode, buffering)
+        try:
+            return open(name, mode, buffering)
+        except FileExistsError as e:
+            print(e, 'Use --force flag to overwrite.', sep=', ')
+            exit(1)
 
 def convert(json_file, yaml_file):
     loaded_json = json.load(json_file, object_pairs_hook=collections.OrderedDict)
@@ -56,7 +61,8 @@ if __name__ == '__main__':
 
     json_arg = args.get('<json_file>') or sys.stdin
     yaml_arg = args.get('<yaml_file>') or sys.stdout
+    force_arg  = bool(args.get('--force'))
 
     with safeopen(json_arg, 'r') as json_file:
-        with safeopen(yaml_arg, 'w') as yaml_file:
+        with safeopen(yaml_arg, 'w' if force_arg else 'x') as yaml_file:
             convert(json_file, yaml_file)
