@@ -17,11 +17,12 @@
 """
 Usage:
     yaml2json (--version|--help)
-    yaml2json [-i <indent>] [-a] [<yaml_file>] [<json_file>]
+    yaml2json [-i <indent>] [-a] [-f] [<yaml_file>] [<json_file>]
 
 Arguments:
     -i, --indent=INDENT  Number of spaces to indent [default: 4]
     -a, --array          Wrap the yaml documents in a JSON array
+    -f, --force          Overwrite target file if exists
     <yaml_file>          The input file containing the YAML to convert. If not
                          specified, reads from stdin.
     <json_file>          The output file to which to write the converted JSON. If
@@ -62,7 +63,11 @@ def safeopen(name, mode='r', buffering=1):
     elif name == '-':
         return sys.stdin
     else:
-        return open(name, mode, buffering)
+        try:
+            return open(name, mode, buffering)
+        except FileExistsError as e:
+            print(e, 'Use --force flag to overwrite.', sep=', ')
+            exit(1)
 
 # Convert from YAML to JSON
 def convert(yaml_file, json_file, indent, array):
@@ -87,7 +92,8 @@ if __name__ == '__main__':
     json_arg   = args.get('<json_file>') or sys.stdout
     indent_arg = int(args.get('--indent'))
     array_arg  = bool(args.get('--array'))
+    force_arg  = bool(args.get('--force'))
 
     with safeopen(yaml_arg, 'r') as yaml_file:
-        with safeopen(json_arg, 'w') as json_file:
+        with safeopen(json_arg, 'w' if force_arg else 'x') as json_file:
             convert(yaml_file, json_file, indent=indent_arg, array=array_arg)
